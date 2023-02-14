@@ -1,6 +1,8 @@
 package basic
 
 import (
+	"container/list"
+	"reflect"
 	"testing"
 )
 
@@ -106,4 +108,28 @@ func TestSet(t *testing.T) {
 	} else {
 		t.Log("[b] not exist")
 	}
+}
+
+// 链表
+func TestList(t *testing.T) {
+
+	var l = list.New()
+	l.PushBack(10)
+	l.PushBack("20")
+	element := l.PushBack("30")
+
+	// 从头部遍历链表
+	for elm := l.Front(); elm != nil; elm = elm.Next() {
+		t.Log(elm.Value, reflect.TypeOf(elm.Value))
+	}
+
+	// 删除链表元素
+	l.Remove(element)
+	t.Log("remove element", element.Value)
+
+	// 从尾部遍历链表
+	for elm := l.Back(); elm != nil; elm = elm.Prev() {
+		t.Log(elm.Value, reflect.TypeOf(elm.Value))
+	}
+
 }

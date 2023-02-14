@@ -27,5 +27,21 @@ func TestStruct(t *testing.T) {
 	u2.name = "fengjx"
 	u2.age = 24
 	t.Log(u2)
+}
 
+type Hello interface {
+	greet(name string) string
+}
+
+type HelloWorld struct {
+}
+
+func (hello *HelloWorld) greet(name string) string {
+	return "hello: " + name
+}
+
+// 接口
+func TestInterface(t *testing.T) {
+	var hello = new(HelloWorld)
+	t.Log(hello.greet("fengjx"))
 }

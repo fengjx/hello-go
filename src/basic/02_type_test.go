@@ -1,6 +1,7 @@
 package basic
 
 import (
+	"fmt"
 	"math"
 	"testing"
 )
@@ -63,4 +64,35 @@ func TestAlias(t *testing.T) {
 	var a myInt = 1024
 	var b = int64(a)
 	t.Log(a, b)
+}
+
+// 类型判断
+func typeCheck(i interface{}) string {
+	if v, ok := i.(int); ok {
+		return fmt.Sprintf("int %d", v)
+	}
+	if v, ok := i.(string); ok {
+		return fmt.Sprintf("string %s", v)
+	}
+	return "other"
+}
+
+// 类型判断，switch 写法
+func typeCheck2(i interface{}) string {
+	switch v := i.(type) {
+	case int:
+		return fmt.Sprintf("int %d", v)
+	case string:
+		return fmt.Sprintf("string %s", v)
+	default:
+		return "other"
+	}
+}
+
+// 类型判断
+func TestType(t *testing.T) {
+	t.Log(typeCheck(100))
+	t.Log(typeCheck("100"))
+	t.Log(typeCheck2(200))
+	t.Log(typeCheck2("200"))
 }
