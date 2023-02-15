@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"testing"
+	"time"
 )
 
 // bool string
@@ -95,4 +96,23 @@ func TestType(t *testing.T) {
 	t.Log(typeCheck("100"))
 	t.Log(typeCheck2(200))
 	t.Log(typeCheck2("200"))
+}
+
+// 日期
+func TestDate(t *testing.T) {
+	now := time.Now()
+	t.Log(now, now.UnixMilli())
+	t.Log(now.Format("2006-01-02"))
+	t.Logf("%02d.%02d.%4d\n", now.Day(), now.Month(), now.Year())
+
+	utc := time.Now().UTC()
+	t.Log(utc)
+
+	// 日期累加
+	t.Log(now.Add(time.Hour * 24).Format("2006-01-02"))
+
+	// 时间戳转日期
+	dateTime := time.Unix(1676440759, 0)
+	t.Log(dateTime.Format("2006-01-02 15:04:05"))
+	t.Log(dateTime.UnixNano() / 1000 / 1000)
 }
