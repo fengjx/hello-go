@@ -1,6 +1,8 @@
 package concurrency
 
 import (
+	"errors"
+	"fmt"
 	"testing"
 	"time"
 )
@@ -45,4 +47,28 @@ func TestSelect(t *testing.T) {
 	}()
 	v1, v2 := listen(c1, c2, quit)
 	t.Log(v1, v2)
+}
+
+// 使用 channel 实现对象池
+type ObjectPool struct {
+	ch chan interface{}
+}
+
+func (target *ObjectPool) Get(timeout time.Duration) (interface{}, error) {
+	select {
+	case obj := <-target.ch:
+		return obj, nil
+	case <-time.After(timeout):
+		return nil, errors.New("get obj timeout")
+	}
+}
+
+func (target *ObjectPool) Release(obj interface{}) error {
+	select {
+	case target.ch <- obj:
+		fmt.Printf("release obj: %x \n", obj)
+	default:
+		return errors.New("release obj error")
+	}
+	return nil
 }

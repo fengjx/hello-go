@@ -1,6 +1,7 @@
 package basic
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 	"testing"
@@ -44,13 +45,15 @@ func TestFormat(t *testing.T) {
 	for _, c := range a {
 		t.Logf("%[1]c %[1]x", c)
 	}
+
+	t.Logf("%f", 113.662196)
 }
 
 func TestUtil(t *testing.T) {
 	var str = "a,b,c"
 	var arr = strings.Split(str, ",")
 	t.Log("1=>", arr)
-	t.Log("2=>", strings.Join(arr, "-"))
+	t.Log("2=>", ":"+strings.Join(arr, ", :"))
 
 	var i = 1024
 	// int to string
@@ -60,4 +63,10 @@ func TestUtil(t *testing.T) {
 	var s = "1024"
 	var si, _ = strconv.Atoi(s)
 	t.Log("4=>", si+1000)
+}
+
+func TestJoin(t *testing.T) {
+	arr := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	t.Log(strings.Join(strings.Fields(fmt.Sprint(arr)), ","))
+	t.Log(strings.Trim(strings.Join(strings.Fields(fmt.Sprint(arr)), ","), "[]"))
 }

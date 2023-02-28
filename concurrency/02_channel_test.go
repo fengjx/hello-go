@@ -1,6 +1,7 @@
 package concurrency
 
 import (
+	"fmt"
 	"testing"
 	"time"
 )
@@ -69,4 +70,40 @@ func TestChannelCloseRange(t *testing.T) {
 	for v := range ch {
 		t.Log(v)
 	}
+}
+
+// 实现生产者和消费者
+
+type Producer struct {
+	ch chan interface{}
+}
+
+func (target Producer) start() {
+	for i := 0; i < 10; i++ {
+		target.ch <- i
+	}
+}
+
+type Consumer struct {
+	ch chan interface{}
+}
+
+func (target Consumer) start() {
+	for msg := range target.ch {
+		fmt.Println(msg)
+	}
+}
+
+func TestMsg(t *testing.T) {
+	ch := make(chan interface{})
+	p := &Producer{
+		ch: ch,
+	}
+	go p.start()
+
+	c := &Consumer{
+		ch: ch,
+	}
+	go c.start()
+	time.Sleep(3 * time.Second)
 }
