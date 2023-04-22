@@ -44,6 +44,10 @@ func TestMax(t *testing.T) {
 	t.Log()
 	t.Log("MaxFloat32:", math.MaxFloat32)
 	t.Log("MaxFloat64:", math.MaxFloat64)
+	// 2147483647
+	// 2524627692000
+	// 4102464492000
+	// 9223372036854775807
 }
 
 // 指针
