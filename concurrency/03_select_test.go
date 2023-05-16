@@ -49,6 +49,32 @@ func TestSelect(t *testing.T) {
 	t.Log(v1, v2)
 }
 
+func TestSelectChannelBuff(t *testing.T) {
+	ch := make(chan int64, 1)
+	quit := make(chan struct{})
+	go func() {
+		for i := 0; i < 10; i++ {
+			ch <- int64(i)
+			t.Logf("send %d", i)
+		}
+	}()
+
+	go func() {
+		for {
+			select {
+			case v := <-ch:
+				t.Logf("rec %d", v)
+				time.Sleep(time.Second * 1)
+				if v == 9 {
+					quit <- struct{}{}
+				}
+			}
+		}
+	}()
+	<-quit
+	t.Log("exit")
+}
+
 // 使用 channel 实现对象池
 type ObjectPool struct {
 	ch chan interface{}
