@@ -120,3 +120,9 @@ func TestDate(t *testing.T) {
 	t.Log(dateTime.Format("2006-01-02 15:04:05"))
 	t.Log(dateTime.UnixNano() / 1000 / 1000)
 }
+
+func TestTypeEq(t *testing.T) {
+	type typ string
+	var t1 typ = "t1"
+	t.Log(t1 == "t1")
+}
