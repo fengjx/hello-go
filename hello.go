@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
-	fmt.Println("hello world")
+	arr := strings.Split("http://hising.com/user/info?a=1", "?")
+	fmt.Println(arr)
 }

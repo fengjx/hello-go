@@ -26,3 +26,12 @@ func TestReflect2(t *testing.T) {
 	t.Log(value.Type().Elem().Elem())
 	t.Log(value.Elem().Kind())
 }
+
+func helloFun(name string) string {
+	return "hello" + name
+}
+
+func TestReflectFunc(t *testing.T) {
+	typ := reflect.TypeOf(helloFun)
+	t.Log(typ.Out(0).String())
+}

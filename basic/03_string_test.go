@@ -2,6 +2,7 @@ package basic
 
 import (
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 	"testing"
@@ -54,6 +55,9 @@ func TestUtil(t *testing.T) {
 	var arr = strings.Split(str, ",")
 	t.Log("1=>", arr)
 	t.Log("2=>", ":"+strings.Join(arr, ", :"))
+	for _, s := range strings.Split("/api/user/hello/ping", "/") {
+		t.Log(s)
+	}
 
 	var i = 1024
 	// int to string
@@ -63,10 +67,31 @@ func TestUtil(t *testing.T) {
 	var s = "1024"
 	var si, _ = strconv.Atoi(s)
 	t.Log("4=>", si+1000)
+
 }
 
 func TestJoin(t *testing.T) {
 	arr := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	t.Log(strings.Join(strings.Fields(fmt.Sprint(arr)), ","))
 	t.Log(strings.Trim(strings.Join(strings.Fields(fmt.Sprint(arr)), ","), "[]"))
+
+	t.Log(strings.Join([]string{"", "api", "user"}, "/"))
+	t.Log(strings.Join([]string{"api", "user"}, ""))
+}
+
+func TestReg(t *testing.T) {
+	re, _ := regexp.Compile("^/api/lagufun(.*)")
+	targets := []string{
+		"/api/lagufun",
+		"/api/lagufun/hello",
+		"/api/lagufun/hello/ping",
+	}
+	for _, target := range targets {
+		str := re.ReplaceAllString(target, "$1")
+		t.Logf("target: %s, result: %s", target, str)
+	}
+}
+
+func TestString(t *testing.T) {
+	t.Log(strings.HasPrefix("hising-prod", "hising"))
 }

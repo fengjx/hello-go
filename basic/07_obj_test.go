@@ -8,11 +8,12 @@ import (
 type User struct {
 	name string
 	age  int8
+	ext  map[string]interface{}
 }
 
 // 为 User 定义方法
 func (user *User) String() string {
-	return fmt.Sprintf("Name: %s, Age: %d", user.name, user.age)
+	return fmt.Sprintf("Name: %s, Age: %d, Ext: %v", user.name, user.age, user.ext)
 }
 
 func TestStruct(t *testing.T) {
@@ -44,4 +45,25 @@ func (hello *HelloWorld) greet(name string) string {
 func TestInterface(t *testing.T) {
 	var hello = new(HelloWorld)
 	t.Log(hello.greet("fengjx"))
+}
+
+func TestCopy(t *testing.T) {
+	u1 := &User{
+		name: "u1",
+		age:  20,
+		ext: map[string]interface{}{
+			"a": "1",
+		},
+	}
+	ext := make(map[string]interface{})
+	for k, v := range u1.ext {
+		ext[k] = v
+	}
+	u2 := u1
+	func(u User) {
+		u.name = "u2"
+		u.age = 25
+		u.ext["b"] = 2
+	}(*u2)
+	t.Log(u1)
 }
