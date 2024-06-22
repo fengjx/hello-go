@@ -75,35 +75,43 @@ func TestChannelCloseRange(t *testing.T) {
 // 实现生产者和消费者
 
 type Producer struct {
-	ch chan interface{}
+	ch chan int
 }
 
-func (target Producer) start() {
-	for i := 0; i < 10; i++ {
-		target.ch <- i
+func (c Producer) start() {
+	for i := 0; i < 3; i++ {
+		c.ch <- i
 	}
 }
 
 type Consumer struct {
-	ch chan interface{}
+	id int
+	ch chan int
 }
 
-func (target Consumer) start() {
-	for msg := range target.ch {
-		fmt.Println(msg)
+func (c Consumer) start() {
+	for msg := range c.ch {
+		fmt.Println(c.id, msg)
 	}
 }
 
 func TestMsg(t *testing.T) {
-	ch := make(chan interface{})
+	ch := make(chan int)
 	p := &Producer{
 		ch: ch,
 	}
 	go p.start()
 
 	c := &Consumer{
+		id: 1,
 		ch: ch,
 	}
 	go c.start()
-	time.Sleep(3 * time.Second)
+
+	c2 := &Consumer{
+		id: 2,
+		ch: ch,
+	}
+	go c2.start()
+	time.Sleep(5 * time.Second)
 }
